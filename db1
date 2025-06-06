@@ -1,0 +1,38 @@
+<?php
+$conn = new mysqli("localhost", "root", "", "company");
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Query to get max salary for position 'Programmer'
+$sql = "SELECT MAX(salary) AS max_salary FROM employee WHERE position = 'Programmer'";
+$result = $conn->query($sql);
+
+if ($result && $row = $result->fetch_assoc()) {
+    echo "<h2>Maximum Salary for Programmer: ₹" . number_format($row['max_salary'], 2) . "</h2>";
+} else {
+    echo "No data found.";
+}
+
+$conn->close();
+?>
+
+
+
+CREATE DATABASE company;
+USE company;
+
+CREATE TABLE employee (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    position VARCHAR(100),
+    salary FLOAT
+);
+
+-- Sample data
+INSERT INTO employee (name, position, salary) VALUES
+('Alice', 'Manager', 75000),
+('Bob', 'Programmer', 60000),
+('Charlie', 'Programmer', 82000),
+('Daisy', 'Accountant', 50000),
+('Eve', 'Programmer', 79000);
